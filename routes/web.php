@@ -33,6 +33,4 @@ Route::group(["prefix"=>"products","middleware"=>"auth"],function () {
 
 Auth::routes();
 
-Route::get('/',function(){
-    return redirect()->route('products.index');
-});
+Route::get('/',[ProductController::class,"index"])->middleware("auth");
