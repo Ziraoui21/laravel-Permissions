@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Crypt;
 class ProductController extends Controller
 {
     public function __construct() {
-        
+        $this->middleware("auth");
     }
 
     public function index()
