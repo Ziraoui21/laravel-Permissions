@@ -18,6 +18,17 @@ class ProductController extends Controller
         return view("Product.index")->with("products",Product::latest()->get());
     }
 
+    public function search(Request $request)
+    {
+        $request->validate([
+            "name" => "required"
+        ]);
+        
+        return view("product.index")
+        ->with("products",Product::where("name","like",'%'.$request->name.'%')
+        ->get());
+    }
+
     public function new()
     {
         return view("Product.create");
@@ -26,12 +37,7 @@ class ProductController extends Controller
     public function create(ProductRequest $request)
     {
 
-        Product::create(
-        [
-            "name" => $request->name,
-            "price" => $request->price,
-            "description" => $request->description
-        ]);
+        Product::create($request->all());
 
         return redirect()->route("products.index");
     }
@@ -48,13 +54,7 @@ class ProductController extends Controller
 
     public function update($id,ProductRequest $request)
     {
-        Product::find(Crypt::decrypt($id))->update(
-            [
-                "name" => $request->name,
-                "price" => $request->price,
-                "description" => $request->description
-            ]
-        );
+        Product::find(Crypt::decrypt($id))->update($request->all());
 
         return redirect()->route("products.show",$id);
     }

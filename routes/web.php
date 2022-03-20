@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(["prefix"=>"products"],function () {
     Route::get("index",[ProductController::class,"index"])->name("products.index");
+    Route::post("search",[ProductController::class,"search"])->name("products.search");
     Route::get("show/{id}",[ProductController::class,"show"])->name("products.show");
     Route::get("delete/{id}",[ProductController::class,"delete"])->name("products.delete")->middleware("permission:delete products");
 
